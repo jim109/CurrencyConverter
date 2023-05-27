@@ -1,54 +1,54 @@
 <template>
-  <div class="flex flex-col items-center h-screen">
+  <div class="flex flex-col items-center ">
     <div class="w-80 px-2 pt-5 text-center lg:w-4/5">
       <p class="text-xs">FAST MONEY</p>
       <h1 class="text-3xl py-3 black-text-title lg:text-7xl">Currency converter</h1>
-      <p class=" black-text-min">Convert popular currencies from around the world with updated exchange rates using our calculator.</p>
+      <p class="black-text-min">Convert popular currencies from around the world with updated exchange rates using our calculator.</p>
     </div>
 
-    <div class="w-80 rounded-lg bg-white shadow-xl p-5 mt-8 lg:w-4/5 lg:p-8 ">
-      <div class="lg:flex flex-row lg:justify-between lg:pb-5">
+    <div class="w-80 rounded-lg bg-white shadow-xl p-5 mt-8 lg:w-4/5 lg:p-8">
+      <div class="lg:flex lg:justify-between lg:pb-5">
         <div class="py-2.5 lg:w-2/5">
-        <label for="base" class="text-gray-text-conv text-xs">FROM</label>
-        <div class="flex justify-between lg:pt-3">
-          <UsdFlag />
-          <select v-model="base" id="base" @change="convert">
-            <option v-for="currency in currencies" :key="currency" :value="currency">{{ currency }}</option>
-          </select>
-          <input @input="convert" type="number" id="amount" v-model="amount" placeholder="Enter here" class="text-right text-lgs text-blue-text focus:outline-none" />
-        </div>
-      </div>
-
-      <div class="flex justify-center py-4">
-        <button class="w-14 h-14 rounded-full bg-gradient-to-r from-blue-400 to-purple-900 relative" @click="goLeft">
-          <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <div class="w-4 h-4 border-t-4 border-r-4 border-white transform rotate-45"></div>
-            <div class="w-4 h-4 border-t-4 border-r-4 border-white transform -rotate-45 absolute left-0 top-0"></div>
+          <label for="base" class="text-gray-text-conv text-xs">FROM</label>
+          <div class="flex justify-between lg:pt-3">
+            <UsdFlag />
+            <select v-model="base" id="base" @change="convert">
+              <option v-for="currency in currencies" :key="currency" :value="currency">{{ currency }}</option>
+            </select>
+            <input @input="convert" type="number" id="amount" v-model="amount" placeholder="Enter here" class="text-right text-lgs text-blue-text focus:outline-none" />
           </div>
-        </button>
-      </div>
+        </div>
 
-      <div class="py-2.5 lg:w-2/5">
-        <label for="target" class="text-gray-text-conv text-xs">TO</label>
-        <div class="flex justify-between lg:pt-3">
-          <UsdFlag />
-          <select v-model="target" id="target" @change="handleChangeTarget">
-            <option v-for="currency in currencies" :key="currency" :value="currency">{{ currency }}</option>
-          </select>
-          <input v-model="result" type="text" placeholder="000" class="text-right text-blue-text focus:outline-none" />
+        <div class="flex justify-center py-4">
+          <button class="w-14 h-14 rounded-full bg-gradient-to-r from-blue-400 to-purple-900 relative" @click="goLeft">
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <div class="w-4 h-4 border-t-4 border-r-4 border-white transform rotate-45"></div>
+              <div class="w-4 h-4 border-t-4 border-r-4 border-white transform -rotate-45 absolute left-0 top-0"></div>
+            </div>
+          </button>
+        </div>
+
+        <div class="py-2.5 lg:w-2/5">
+          <label for="target" class="text-gray-text-conv text-xs">TO</label>
+          <div class="flex justify-between lg:pt-3">
+            <UsdFlag />
+            <select v-model="target" id="target" @change="handleChangeTarget">
+              <option v-for="currency in currencies" :key="currency" :value="currency">{{ currency }}</option>
+            </select>
+            <input v-model="result" type="text" placeholder="000" class="text-right text-blue-text focus:outline-none" />
+          </div>
         </div>
       </div>
+      <div class="flex">
+        <div class="canvas-container">
+          <canvas ref="lineChartRef" width="100%" height="100%" class="canva"></canvas>
+        </div>
       </div>
-      <div>
-        <canvas ref="lineChartRef" style="width: 100%; height: 381px;" class="canva"></canvas>
-      </div>
-      
     </div>
     <div class="w-96 px-4 pt-5 pb-8 text-center lg:w-4/5">
       <p class="text-sm">Currency calculation tools use reference exchange rates obtained from major market data sources</p>
     </div>
   </div>
-
 </template>
 
 <script setup>
@@ -181,7 +181,7 @@ onMounted(() => {
 const createChart = (datosPares) => {
   if (datosPares && paresMonedas in datosPares) {
     const ctx = lineChartRef.value.getContext('2d');
-console.log(ctx);
+
     // Destruir el gráfico existente si ya existe
     if (lineChartRef.value.chart) {
       lineChartRef.value.chart.destroy();
@@ -235,8 +235,11 @@ console.log(ctx);
 
     // Crear el gráfico
     lineChartRef.value.chart = new Chart(ctx, chartConfig);
-    console.log(chartConfig);
+
   }
+  window.addEventListener('resize', () => {
+    lineChartRef.value.chart.resize();
+  });
 };
 watch(() => target.value, async (newValue) => {
   paresMonedas = newValue; // Actualizar paresMonedas con el nuevo valor de target.value
@@ -253,9 +256,13 @@ watch(() => target.value, async (newValue) => {
 
 </script>
 <style scoped>
-.canva {
-  width: 100vw;
+.canvas-container {
+  width: 100%;
   height: 60vh; /* Ajusta la altura según tus necesidades */
+}
+.canva {
+  width: 100%;
+  height: 100%; 
 }
 
 </style>
