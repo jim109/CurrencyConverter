@@ -4,7 +4,7 @@
         <div class="py-2.5 lg:w-2/5">
           <label for="base" class="text-gray-text-conv text-xs">FROM</label>
           <div class="flex justify-between lg:pt-3">
-            <UsdFlag />
+            <FlagComponent :flag="base" />
             <select v-model="base" id="base" @change="convert">
               <option v-for="currency in currencies" :key="currency" :value="currency">{{ currency }}</option>
             </select>
@@ -24,7 +24,7 @@
         <div class="py-2.5 lg:w-2/5">
           <label for="target" class="text-gray-text-conv text-xs">TO</label>
           <div class="flex justify-between lg:pt-3">
-            <UsdFlag />
+            <FlagComponent :flag="target" />
             <select v-model="target" id="target" @change="handleChangeTarget">
               <option v-for="currency in currencies" :key="currency" :value="currency">{{ currency }}</option>
             </select>
@@ -44,7 +44,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2'
 
 import CanvasComponent from './CanvasComponent.vue';
-import UsdFlag from './icons/UsdFlag.vue';
+import FlagComponent from './FlagComponent.vue';
 
 const apiKey = '7a5e9772f56f425eb07d84f9a8210312';
 const apiUrl = 'https://openexchangerates.org/api/latest.json?';

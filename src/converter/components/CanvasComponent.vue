@@ -38,6 +38,16 @@ const obtenerDatos = async (fecha) => {
   return data.rates;
 };
 
+//reemplazamos el valor de la fecha actual para enviar al grafico solo el dia
+const fechaGrafico = fechas.map(fecha => {
+  const fechaObjeto = new Date(fecha)
+  const dia = fecha.slice(-2)
+  const mes = fechaObjeto.toLocaleString('default', { month: 'short' }).toUpperCase()
+
+  return `${dia} ${mes}`//Array['22 MAY', '23 MAY']
+})
+
+
 const createChart = (datosPares) => {
   if (datosPares && paresMonedas in datosPares) {
     const ctx = lineChartRef.value.getContext('2d');
@@ -55,10 +65,11 @@ const createChart = (datosPares) => {
       type: 'line',
       
       data: {
-        labels: fechas,
+        labels: fechaGrafico,
         datasets: [
           {
             label: `From US Dollar to ${paresMonedas}`,
+            
             data: datosPares[paresMonedas],
             fill: true, // Deshabilita el relleno del área bajo la línea
             borderColor: 'rgba(23, 81, 208, 1)', // Color de la línea
@@ -74,7 +85,12 @@ const createChart = (datosPares) => {
         maintainAspectRatio: false,
     scales: {
       x: {
-        display: false, // Oculta el eje x
+        display: true, // Oculta el eje x
+        grid: {
+          color: 'rgba(255, 255, 255, 1)',
+          drawBorder: false,
+          drawTicks: false,
+        }
       },
       y: {
         display: true, // Oculta el eje y
@@ -87,13 +103,9 @@ const createChart = (datosPares) => {
       },
     },
     plugins: {
-          legend: {
-            borderColor: 'rgba(0, 0, 0, 0)', // Oculta la línea de borde del elemento de leyenda
-          },
         },
   },
     };
-
     // Crear el gráfico
     lineChartRef.value.chart = new Chart(ctx, chartConfig);
   }
@@ -113,7 +125,6 @@ onMounted(async () => {
 //Revisamos cambios en props.target y actualizamos el valor de paresMonedas
 watch(() => props.target, async(newValue) => {
   paresMonedas = newValue; // Actualizar paresMonedas con el nuevo valor de target.value
-  console.log(paresMonedas);
   createChart(datosPares.value); // Volver a generar la gráfica con los nuevos datos
 });
 
@@ -128,17 +139,14 @@ const updateChart = async () => {
     } else {
       datosPares.value = {};
     }
-
     createChart(datosPares.value);
   };
 
   onMounted(async () => {
     const datosHistoricos = await Promise.all(fechas.map(obtenerDatos));
-
     if (paresMonedas in datosHistoricos[0]) {
       datosPares.value = { [paresMonedas]: datosHistoricos.map((datos) => datos[paresMonedas]) };
     }
-
     if (datosPares.value) {
       createChart(datosPares.value);
     }
