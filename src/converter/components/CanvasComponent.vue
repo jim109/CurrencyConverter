@@ -1,6 +1,6 @@
 <template>
   <div class="canvas-container">
-      <canvas ref="lineChartRef" width="100%" height="80%" class="canva"></canvas>
+      <canvas ref="lineChartRef"  class="canva"></canvas>
   </div>
 </template>
 
@@ -71,6 +71,7 @@ const createChart = (datosPares) => {
         ],
       },
       options: {
+        maintainAspectRatio: false,
     scales: {
       x: {
         display: false, // Oculta el eje x
@@ -148,9 +149,8 @@ const updateChart = async () => {
     await updateChart();
   });
   window.addEventListener('resize', () => {
-    console.log(lineChartRef.value);
       if (lineChartRef.value && lineChartRef.value.chart) {
-      lineChartRef.value.chart.resize();
+      lineChartRef.value.chart.resize()
       }
     });
 });
@@ -160,6 +160,9 @@ const updateChart = async () => {
 <style scoped>
 .canvas-container {
   width: 100%;
-  height: 40vh; /* Ajusta la altura según tus necesidades */
+  height: 40vh; 
+}
+.canva {
+  margin: 0;
 }
 </style>

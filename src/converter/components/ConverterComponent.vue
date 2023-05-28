@@ -1,4 +1,5 @@
 <template>
+    <div class="w-80 rounded-lg bg-white shadow-xl p-5 mt-8 lg:w-3/4 lg:p-8">
       <div class="lg:flex lg:justify-between lg:pb-5">
         <div class="py-2.5 lg:w-2/5">
           <label for="base" class="text-gray-text-conv text-xs">FROM</label>
@@ -12,7 +13,7 @@
         </div>
 
         <div class="flex justify-center py-4">
-          <button class="w-14 h-14 rounded-full bg-gradient-to-r from-blue-400 to-purple-900 relative" @click="goLeft">
+          <button class="w-14 h-14 rounded-full bg-gradient-to-r from-blue-400 to-purple-900 relative" @click="goChange">
             <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
               <div class="w-4 h-4 border-t-4 border-r-4 border-white transform rotate-45"></div>
               <div class="w-4 h-4 border-t-4 border-r-4 border-white transform -rotate-45 absolute left-0 top-0"></div>
@@ -34,6 +35,7 @@
       <div class="flex">
         <CanvasComponent :target="target" />
       </div>
+    </div>
 </template>
 
 <script setup>
@@ -93,7 +95,7 @@ axios
 const handleChangeTarget = () => {
   convert(); // Realizar la conversión al cambiar la moneda objetivo
 };
-const goLeft = () => {
+const goChange = () => {
   const temp = base.value;
   base.value = target.value;
   target.value = temp;
