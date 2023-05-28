@@ -13,10 +13,12 @@
         </div>
 
         <div class="flex justify-center py-4">
-          <button class="w-14 h-14 rounded-full bg-gradient-to-r from-blue-400 to-purple-900 relative" @click="goChange">
+          <button class="w-14 h-14 rounded-full bg-gradient-to-r from-blue-400 to-purple-900 relative flex items-center justify-center" @click="goChange">
+          <div class="relative">
             <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-              <div class="w-4 h-4 border-t-4 border-r-4 border-white transform rotate-45"></div>
-              <div class="w-4 h-4 border-t-4 border-r-4 border-white transform -rotate-45 absolute left-0 top-0"></div>
+              <ArrowForwardComponent class="absolute -top-1 -left-2" />
+              <ArrowBackComponent class="absolute -top-3 -left-3" />
+            </div>
             </div>
           </button>
         </div>
@@ -45,6 +47,8 @@ import Swal from 'sweetalert2'
 
 import CanvasComponent from './CanvasComponent.vue';
 import FlagComponent from './FlagComponent.vue';
+import ArrowBackComponent from './icons/ArrowBackComponent.vue';
+import ArrowForwardComponent from './icons/ArrowForwardComponent.vue';
 
 const apiKey = '7a5e9772f56f425eb07d84f9a8210312';
 const apiUrl = 'https://openexchangerates.org/api/latest.json?';
