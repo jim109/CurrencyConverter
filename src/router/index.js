@@ -1,7 +1,6 @@
  import { createRouter, createWebHashHistory } from 'vue-router'
 
 import isAuthenticatedGuard from '../auth/router/auth-guard'
-// import converterRouter from '../converter/router'
 import authRouter from '../auth/router'
 
 const routes = [
