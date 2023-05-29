@@ -20,8 +20,19 @@ const onSubmit = async () => {
   }
   const { ok, message } = await loginUser(user)
 
+  if (!correo.value || !password.value) {
+    Swal.fire('Error', 'Please enter both email and password', 'error');
+    return;
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(correo.value)) {
+    Swal.fire('Error', 'Please enter a valid email address', 'error');
+    return;
+  }
+
   if (!ok) {
-    Swal.fire('Error', message, 'error')
+    Swal.fire('Error', 'Please enter a valid email address and password', 'error')
   } else {
     router.push({ name: 'converter' })
   }
@@ -42,10 +53,10 @@ const onSubmit = async () => {
         </div>
         <form @submit.prevent="onSubmit" class="w-full lg:w-2/3 flex flex-col">
           <div class="mb-4 text-center">
-            <input v-model="correo" type="email" id="correo" name="correo" placeholder="Enter email" required class="w-80 lg:w-full px-4 py-2 border border-gray-line rounded-md bg-gray-box focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm">
+            <input v-model="correo" type="email" id="correo" name="correo" placeholder="Enter email"  class="w-80 lg:w-full px-4 py-2 border border-gray-line rounded-md bg-gray-box focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm">
           </div>
           <div class="mb-4">
-            <input v-model="password" type="password" id="password" name="password" placeholder="Enter password" required class="w-80 lg:w-full px-4 py-2 border border-gray-line rounded-md bg-gray-box focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm">
+            <input v-model="password" type="password" id="password" name="password" placeholder="Enter password"  class="w-80 lg:w-full px-4 py-2 border border-gray-line rounded-md bg-gray-box focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm">
           </div>
           <div class="mb-4">
             <input :checked="remember" type="checkbox" id="remember" name="remember" class="mr-2 border-gray-line shadow-sm">
