@@ -41,22 +41,22 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import axios from 'axios';
+import { ref } from 'vue'
+import axios from 'axios'
 import Swal from 'sweetalert2'
 
-import CanvasComponent from './CanvasComponent.vue';
-import FlagComponent from './FlagComponent.vue';
-import ArrowBackComponent from './icons/ArrowBackComponent.vue';
-import ArrowForwardComponent from './icons/ArrowForwardComponent.vue';
+import CanvasComponent from './CanvasComponent.vue'
+import FlagComponent from './FlagComponent.vue'
+import ArrowBackComponent from './icons/ArrowBackComponent.vue'
+import ArrowForwardComponent from './icons/ArrowForwardComponent.vue'
 
-const apiKey = '7a5e9772f56f425eb07d84f9a8210312';
-const apiUrl = 'https://openexchangerates.org/api/latest.json?';
-const amount = ref('');
-const base = ref('USD');
-const target = ref('EUR');
-const result = ref(null);
-const currencies = ref([]);
+const apiKey = process.env.APP_ID
+const apiUrl = 'https://openexchangerates.org/api/latest.json?'
+const amount = ref('')
+const base = ref('USD')
+const target = ref('EUR')
+const result = ref(null)
+const currencies = ref([])
 
 axios
   .get(apiUrl, {
@@ -65,10 +65,10 @@ axios
     },
   })
   .then(response => {
-    currencies.value = Object.keys(response.data.rates);
+    currencies.value = Object.keys(response.data.rates)
   })
   .catch(error => {
-    console.error('Error al obtener las tasas de cambio:', error);
+    console.error('Error al obtener las tasas de cambio:', error)
   });
 
   const convert = () => {
@@ -80,15 +80,15 @@ axios
       },
     })
     .then(response => {
-      const rates = response.data.rates;
+      const rates = response.data.rates
       if (target.value in rates) {
-        result.value = (amount.value * rates[target.value]).toFixed(2);
+        result.value = (amount.value * rates[target.value]).toFixed(2)
       } else {
-        result.value = 'Moneda objetivo no válida';
+        result.value = 'Moneda objetivo no válida'
       }
     })
     .catch(error => {
-      console.error('Error al convertir la moneda:', error);
+      console.error('Error al convertir la moneda:', error)
       Swal.fire({
         icon: 'error',
         title: 'Error al convertir la moneda:',
@@ -100,11 +100,11 @@ const handleChangeTarget = () => {
   convert(); // Realizar la conversión al cambiar la moneda objetivo
 };
 const goChange = () => {
-  const temp = base.value;
-  base.value = target.value;
-  target.value = temp;
-  result.value = null;
-  convert();
-};
+  const temp = base.value
+  base.value = target.value
+  target.value = temp
+  result.value = null
+  convert()
+}
 </script>
 
