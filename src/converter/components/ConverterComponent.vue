@@ -30,7 +30,7 @@
             <select v-model="target" id="target" @change="handleChangeTarget">
               <option v-for="currency in currencies" :key="currency" :value="currency">{{ currency }}</option>
             </select>
-            <input v-model="result" type="text" placeholder="000" class="text-right text-blue-text focus:outline-none" />
+            <input v-model="result" type="text" placeholder="000" class="text-right text-blue-text focus:outline-none" readonly/>
           </div>
         </div>
       </div>

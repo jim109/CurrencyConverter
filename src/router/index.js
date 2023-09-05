@@ -4,13 +4,13 @@ import isAuthenticatedGuard from '../auth/router/auth-guard'
 import authRouter from '../auth/router'
 
 const routes = [
+    // {
+    //   path: '/',
+    //   ...authRouter,
+    // },
     {
-      path: '/',
-      ...authRouter,
-    },
-    {
-      path:'/converter',
-      beforeEnter: [ isAuthenticatedGuard ],
+      path:'/',
+      // beforeEnter: [ isAuthenticatedGuard ],
       name: 'converter',
       component: () => import('../converter/pages/ConverterPage.vue'),
     },
